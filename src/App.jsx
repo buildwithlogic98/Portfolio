@@ -1,5 +1,6 @@
 import FadeContent from './components/FadeContent';
 import Aurora from './components/Aurora';
+import Icon from './components/Icons';
 import { profile, stats, roadmap, projects, journey, auroraColors } from './data';
 
 function Nav() {
@@ -23,12 +24,14 @@ function Hero() {
       <div className="hero-aurora">
         <Aurora
           colorStops={auroraColors}
-          amplitude={1.1}
-          blend={0.6}
-          height={0.55}
-          glow={0.7}
+          amplitude={0.9}
+          blend={0.65}
+          height={0.5}
+          glow={0.35}        /* ↓ less light spill */
+          brightness={0.55}  /* ↓ overall dimmer */
+          opacity={0.8}      /* ↓ whole effect toned down */
           layers={2}
-          speed={1}
+          speed={0.9}
         />
       </div>
       <div className="hero-fade" />
@@ -48,7 +51,9 @@ function Hero() {
           <a className="btn btn-ghost" href="#contact">Get in touch</a>
         </div>
       </FadeContent>
-      <a href="#about" className="scroll-hint" aria-label="Scroll down">â–¾</a>
+      <a href="#about" className="scroll-hint" aria-label="Scroll down">
+        <Icon name="chevron-down" size={22} />
+      </a>
     </header>
   );
 }
@@ -74,7 +79,7 @@ export default function App() {
       <main>
         <Hero />
 
-        <Section id="about" kicker="01 Â· About" title="Who I am">
+        <Section id="about" kicker="01 · About" title="Who I am">
           <FadeContent duration={1.1} ease="power3.out" threshold={0.15}>
             <div className="about-grid">
               <div className="about-text">
@@ -92,11 +97,11 @@ export default function App() {
           </FadeContent>
         </Section>
 
-        <Section id="roadmap" kicker="02 Â· Roadmap" title="Where I'm headed">
+        <Section id="roadmap" kicker="02 · Roadmap" title="Where I'm headed">
           <FadeContent className="roadmap-grid" stagger={0.15} duration={1} threshold={0.15}>
             {Object.entries(roadmap).map(([stage, { icon, items, note }]) => (
               <div className="roadmap-card" key={stage}>
-                <span className="roadmap-icon">{icon}</span>
+                <span className="roadmap-icon"><Icon name={icon} size={26} /></span>
                 <h3>{stage}</h3>
                 <p className="roadmap-note">{note}</p>
                 <div className="chips">
@@ -107,15 +112,15 @@ export default function App() {
           </FadeContent>
         </Section>
 
-        <Section id="projects" kicker="03 Â· Projects" title="What I've made so far">
+        <Section id="projects" kicker="03 · Projects" title="What I've made so far">
           <FadeContent className="projects-grid" stagger={0.15} duration={1.1} threshold={0.1}>
             {projects.map((p) => (
               <article className={`project-card${p.soon ? ' soon' : ''}`} key={p.title}>
                 <div className="project-top">
-                  <span className="project-emoji">{p.emoji}</span>
+                  <span className="project-icon"><Icon name={p.icon} size={24} /></span>
                   <div className="project-links">
-                    {p.github && <a href={p.github} target="_blank" rel="noreferrer">GitHub â†—</a>}
-                    {p.live && <a href={p.live} target="_blank" rel="noreferrer">Live â†—</a>}
+                    {p.github && <a href={p.github} target="_blank" rel="noreferrer">GitHub ↗</a>}
+                    {p.live && <a href={p.live} target="_blank" rel="noreferrer">Live ↗</a>}
                   </div>
                 </div>
                 <h3>{p.title}</h3>
@@ -128,7 +133,7 @@ export default function App() {
           </FadeContent>
         </Section>
 
-        <Section id="journey" kicker="04 Â· Journey" title="My journey so far">
+        <Section id="journey" kicker="04 · Journey" title="My journey so far">
           <FadeContent className="timeline" stagger={0.15} duration={1} threshold={0.15}>
             {journey.map((item) => (
               <div className="timeline-item" key={item.title}>
@@ -144,22 +149,30 @@ export default function App() {
           </FadeContent>
         </Section>
 
-        <Section id="contact" kicker="05 Â· Contact" title="Let's connect">
+        <Section id="contact" kicker="05 · Contact" title="Let's connect">
           <FadeContent duration={1} threshold={0.2}>
             <p className="contact-text">{profile.contactBlurb}</p>
             <div className="contact-row">
-              <a className="btn btn-primary" href={`mailto:${profile.email}`}>{profile.email}</a>
+              <a className="btn btn-primary" href={`mailto:${profile.email}`}>
+                <Icon name="mail" size={16} /> {profile.email}
+              </a>
               {profile.resume && (
-                <a className="btn btn-ghost" href={profile.resume} target="_blank" rel="noreferrer">RÃ©sumÃ©</a>
+                <a className="btn btn-ghost" href={profile.resume} target="_blank" rel="noreferrer">Résumé</a>
               )}
               {profile.phone && (
-                <a className="btn btn-ghost" href={`tel:${profile.phone.replace(/\s/g, '')}`}>ðŸ“ž {profile.phone}</a>
+                <a className="btn btn-ghost" href={`tel:${profile.phone.replace(/\s/g, '')}`}>
+                  <Icon name="phone" size={15} /> {profile.phone}
+                </a>
               )}
               {profile.github && (
-                <a className="btn btn-ghost" href={profile.github} target="_blank" rel="noreferrer">GitHub</a>
+                <a className="btn btn-ghost" href={profile.github} target="_blank" rel="noreferrer">
+                  <Icon name="github" size={16} /> GitHub
+                </a>
               )}
               {profile.linkedin && (
-                <a className="btn btn-ghost" href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+                <a className="btn btn-ghost" href={profile.linkedin} target="_blank" rel="noreferrer">
+                  <Icon name="linkedin" size={16} /> LinkedIn
+                </a>
               )}
             </div>
           </FadeContent>
@@ -168,7 +181,7 @@ export default function App() {
 
       <footer className="footer">
         <p>
-          Â© {new Date().getFullYear()} {profile.name} Â· Built with React + Vite &{' '}
+          © {new Date().getFullYear()} {profile.name} · Built with React + Vite &{' '}
           <a href="https://reactbits.dev" target="_blank" rel="noreferrer">React Bits</a>
         </p>
       </footer>
